@@ -1,0 +1,28 @@
+#!/bin/sh
+
+#SBATCH --job-name=check_mmyolo_test
+#SBATCH --ntasks=1
+#SBATCH --time=0-00:10:00
+#SBATCH --mail-type=begin,end,fail,requeue
+#SBATCH --export=all
+#SBATCH --output=Mill-%j.out
+#SBATCH --gres=gpu:1
+#SBATCH --mem=32G
+
+# %j will substitute the job's id
+
+# Now run your executables just like you would in a shell script.
+# Slurm will set the working directory as the directory the job was submitted from.
+
+echo "MMYolo Check Script Started"
+
+module load anaconda
+source activate mmyolo
+conda info --env
+
+cd mmyolo
+mim download mmyolo --config yolov5_s-v61_syncbn_fast_8xb16-300e_coco --dest .
+
+python demo/image_demo.py demo/demo.jpg \
+                          yolov5_s-v61_syncbn_fast_8xb16-300e_coco.py \
+                          yolov5_s-v61_syncbn_fast_8xb16-300e_coco_20220918_084700-86e02187.pth

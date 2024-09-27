@@ -1,0 +1,47 @@
+#!/bin/sh
+
+#SBATCH --job-name=create_conda_test
+#SBATCH --ntasks=1
+#SBATCH --time=0-00:10:00
+#SBATCH --mail-type=begin,end,fail,requeue
+#SBATCH --export=all
+#SBATCH --output=Mill-%j.out
+
+# %j will substitute the job's id
+
+# Now run your executables just like you would in a shell script.
+# Slurm will set the working directory as the directory the job was submitted from.
+
+echo "Install Script Started"
+
+module load anaconda
+conda init
+
+ENV_NAME="mmyolo"
+
+# Check if the environment already exists
+if ! conda info --envs | grep -q "^${ENV_NAME} "; then
+  echo "Environment '$ENV_NAME' does not exist. Creating it now..."
+    conda create -n "$ENV_NAME" python=3.8 pytorch==1.10.1 torchvision==0.11.2 cudatoolkit=11.3 -c pytorch -y
+else
+  echo "Environment '$ENV_NAME' already exists."
+fi
+
+module load anaconda
+source activate "$ENV_NAME"
+conda info --env
+
+pip install openmim
+mim install "mmengine>=0.6.0"
+mim install "mmcv>=2.0.0rc4,<2.1.0"
+mim install "mmdet>=3.0.0,<4.0.0"
+git clone https://github.com/open-mmlab/mmyolo.git
+cd mmyolo
+
+# Install albumentations
+pip install -r requirements/albu.txt
+
+# # Install MMYOLO
+mim install -v -e .
+
+echo "Install Script Completed"
