@@ -17,4 +17,4 @@ sbatch checkmmdetectionenv.sub
 sbatch checkmmdetection.sub  
 
 MMYolo should put an example output inside of /mmyolo/output/demo.jpg when successfully installed
-MMDetection should put an example output inside of /MMDetection/output/demo.jpg when successfully installed
+MMDetection should put an example output inside of /MMDetection/outputs when successfully installed
