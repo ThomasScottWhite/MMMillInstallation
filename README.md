@@ -6,12 +6,12 @@ git clone this repository
 
 run the following sbatch jobs and view their .out files to ensure installation completes  
 
-MMYolo:
+MMYolo:  
 sbatch createmmyoloenv.sub  
 sbatch checkmmyoloenv.sub  
 sbatch checkmmyolo.sub  
 
-MMDetection:
+MMDetection:  
 sbatch createmmdetectionenv.sub  
 sbatch checkmmdetectionenv.sub  
 sbatch checkmmdetection.sub  
