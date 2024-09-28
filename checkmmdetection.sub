@@ -1,0 +1,26 @@
+#!/bin/sh
+
+#SBATCH --job-name=check_mmyolo_test
+#SBATCH --ntasks=1
+#SBATCH --time=0-00:10:00
+#SBATCH --mail-type=begin,end,fail,requeue
+#SBATCH --export=all
+#SBATCH --output=Mill-%j.out
+#SBATCH --gres=gpu:1
+#SBATCH --mem=32G
+
+# %j will substitute the job's id
+
+# Now run your executables just like you would in a shell script.
+# Slurm will set the working directory as the directory the job was submitted from.
+
+echo "MMDetection Check Script Started"
+
+module load anaconda
+source activate openmmlab
+conda info --env
+
+cd mmdetection
+mim download mmdet --config rtmdet_tiny_8xb32-300e_coco --dest .
+
+python demo/image_demo.py demo/demo.jpg rtmdet_tiny_8xb32-300e_coco.py --weights rtmdet_tiny_8xb32-300e_coco_20220902_112414-78e30dcc.pth --device cpu

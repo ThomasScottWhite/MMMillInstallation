@@ -1,0 +1,21 @@
+#!/bin/sh
+
+#SBATCH --job-name=check_conda_test
+#SBATCH --ntasks=1
+#SBATCH --time=0-00:10:00
+#SBATCH --mail-type=begin,end,fail,requeue
+#SBATCH --export=all
+#SBATCH --output=Mill-%j.out
+
+# %j will substitute the job's id
+
+# Now run your executables just like you would in a shell script.
+# Slurm will set the working directory as the directory the job was submitted from.
+
+echo "Installation Check Script Started"
+
+module load anaconda
+source activate mmyolo
+conda info --env
+
+echo "Installation Check Script Completed"      
