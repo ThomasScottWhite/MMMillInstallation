@@ -1,5 +1,5 @@
-# MMYoloMillInstallation
-This is an installation script to install MMYolo and MMDetection on MST Computing cluster
+# MMMillInstallation
+This repository contains installation script to install MMYolo and MMDetection on MST Computing cluster
 ## How to Use
 ssh into the mill  
 git clone this repository
